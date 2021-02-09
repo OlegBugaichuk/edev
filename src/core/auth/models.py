@@ -1,11 +1,11 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
-from db.database import Base
+from src.core.db.database import Base
 
 
 class User(Base):
-    __table_name__ = 'users'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
