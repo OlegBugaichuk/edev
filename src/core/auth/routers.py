@@ -1,15 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
-from datetime import datetime, timedelta
+from fastapi import APIRouter, Depends, HTTPException, status
+from datetime import timedelta
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi.responses import JSONResponse
-from core.db.database import SessionLocal
 from sqlalchemy.orm import Session
 from typing import List
+from core.db.database import SessionLocal
 from src.core.settings import ACCESS_TOKEN_EXPIRE_MINUTES
-from .schemas import User, UserCreate, UserLogin, Token
-from .helpers import create_access_token
-from .crud import authenticate_user, get_current_user
-
+from .schemas import User, UserCreate, Token
+from .helpers import create_access_token, authenticate_user, get_current_user
 from . import crud
 
 
@@ -35,15 +32,6 @@ async def get_list_users(db:Session = Depends(get_db)):
 async def register(user: UserCreate, db: Session = Depends(get_db)):
     new_user = crud.create_user(db, user)
     return new_user
-
-
-# @router.post('/login', status_code=200)
-# async def login(user: UserLogin, db: Session = Depends(get_db)):
-#     result = await check_user_password(db, user.email, user.password)
-#     if result:
-#         return JSONResponse(content={'detail': 'Login success'})
-#     else:
-#         return HTTPException(status_code=401, detail='Email or password not valid')
 
 
 @router.post("/token", response_model=Token)

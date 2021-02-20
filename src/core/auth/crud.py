@@ -1,10 +1,6 @@
-from fastapi import HTTPException, status, Depends
 from sqlalchemy.orm import Session
-from jose import JWTError, jwt
-from src.core.settings import SECRET_KEY, ALGORITHM
 from .helpers import pwd_context
 from . import models, schemas
-from .helpers import check_password
 
 
 def get_user(db: Session, user_id: int):
@@ -29,39 +25,3 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
-
-
-async def authenticate_user(db: Session, email: str, password: str):
-    '''
-        Check password and return user or None
-    '''
-    db_user = db.query(models.User).filter(models.User.email == email).first()
-    if not db_user:
-        return None
-    print(db_user.hashed_password)
-    if not check_password(password, db_user.hashed_password):
-        return None
-    return db_user
-
-
-async def get_current_user(db: Session, token: str):
-    '''
-    Return current user, using jwt
-    '''
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        id: str = payload.get("sub")
-        if id is None:
-            raise credentials_exception
-        token_data = schemas.TokenData(id=id)
-    except JWTError as e:
-        raise credentials_exception
-    user = get_user(db, user_id=token_data.id)
-    if user is None:
-        raise credentials_exception
-    return user
