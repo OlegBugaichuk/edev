@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
-from .helpers import pwd_context
-from . import models, schemas
+from . import models, schemas, helpers
 
 
 def get_user(db: Session, user_id: int):
@@ -19,7 +18,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     '''
         Create user
     '''
-    hashed_pass = pwd_context.hash(user.password)
+    hashed_pass = helpers.get_hashed_password(user.password)
     db_user = models.User(email=user.email, hashed_password=hashed_pass)
     db.add(db_user)
     db.commit()
