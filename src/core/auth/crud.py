@@ -24,3 +24,22 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def get_user_types(db:Session):
+    return db.query(models.UserType).all()
+
+
+def get_user_type(db:Session, id:int):
+    return db.query(models.UserType).filter(models.UserType.id == id).first()
+
+
+def create_user_type(db: Session, user_type: schemas.UserTypeCreate):
+    '''
+        Create user type
+    '''
+    db_user_type = models.UserType(title=user_type.title)
+    db.add(db_user_type)
+    db.commit()
+    db.refresh(db_user_type)
+    return db_user_type

@@ -2,6 +2,21 @@ from pydantic import BaseModel
 from typing import Optional
 
 
+class UserTypeBase(BaseModel):
+    title: str
+
+
+class UserTypeCreate(UserTypeBase):
+    pass
+
+
+class UserType(UserTypeBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+    
+
 class UserBase(BaseModel):
     email: str
 
@@ -12,8 +27,13 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    is_active: bool
-    is_admin: bool
+    is_active: bool = False
+    is_admin: bool = False
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    photo: Optional[str] = None
+    phone: Optional[str] = None
+    user_type: UserType
 
     class Config:
         orm_mode = True
