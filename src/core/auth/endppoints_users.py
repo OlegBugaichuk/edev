@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter, Response
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -32,6 +32,14 @@ async def get_user_detail(user_id:int, db:Session = Depends(get_db)):
             detail="User not found"
         )
     return user
+
+
+@router.delete("/{user_id}")
+async def read_users_me(user_id:int, db:Session = Depends(get_db), token:str = Depends(oauth2_scheme)):
+    current_user = await get_current_user(db, token)
+    if current_user:
+        crud.delete_user(db, user_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get("/me", response_model=User)

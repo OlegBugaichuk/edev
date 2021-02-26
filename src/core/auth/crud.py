@@ -26,6 +26,12 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
+def delete_user(db: Session, user_id: int):
+    user = get_user(db, user_id)
+    db.delete(user)
+    db.commit()
+
+
 def get_user_types(db:Session):
     return db.query(models.UserType).all()
 
