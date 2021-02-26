@@ -33,7 +33,7 @@ class User(UserBase):
     last_name: Optional[str] = None
     photo: Optional[str] = None
     phone: Optional[str] = None
-    user_type: UserType
+    user_type: Optional[UserType] = None
 
     class Config:
         orm_mode = True

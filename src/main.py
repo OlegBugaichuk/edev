@@ -4,4 +4,4 @@ from core.auth.routers import router
 
 app = FastAPI()
 
-app.include_router(router, prefix='/users')
+app.include_router(router)
