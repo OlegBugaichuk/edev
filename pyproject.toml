@@ -2,13 +2,17 @@
 name = "edev"
 version = "0.1.0"
 description = ""
-authors = ["OlegBugaichuk <o.bugaichuk@directline.digital>"]
+authors = ["OlegBugaichuk <olegussek@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+Django = "^4.0"
+Jinja2 = "^3.0.3"
+psycopg2 = "^2.9.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+psycopg2-binary = "^2.9.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
