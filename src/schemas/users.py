@@ -25,6 +25,7 @@ class UserBase(BaseModel):
 class User(UserBase):
     id: int
     role: Role
+    password: str
 
     class Config:
         orm_mode = True
@@ -33,3 +34,13 @@ class User(UserBase):
 class UserCreate(UserBase):
     password: str
     role_id: int
+
+
+class LoginSchema(BaseModel):
+    email: str
+    password: str
+
+
+class Token(BaseModel):
+    type: str = "Bearer"
+    token: str

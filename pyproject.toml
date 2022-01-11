@@ -10,11 +10,16 @@ psycopg2 = "^2.9.2"
 fastapi = "^0.71.0"
 SQLAlchemy = "^1.4.29"
 alembic = "^1.7.5"
+passlib = "^1.7.4"
+PyJWT = "^2.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 psycopg2-binary = "^2.9.2"
 uvicorn = "^0.16.0"
+
+[tool.poetry.scripts]
+app = "export $(xargs < .env)"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
