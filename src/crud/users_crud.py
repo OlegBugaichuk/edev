@@ -6,6 +6,12 @@ from core.security import get_password_hash
 
 class UserCRUD:
     
+    def get_user_by_email(self, email: str, db: Session) -> User:
+        return db.query(User).filter(User.email == email).first() 
+    
+    def get_user(self, id: int, db: Session) -> User:
+        return db.query(User).filter(User.id == id).first()
+
     def get_users(self, db: Session) -> list[User]:
         return db.query(User).all()
     
@@ -17,6 +23,7 @@ class UserCRUD:
         db.commit()
         db.refresh(user_db)
         return user_db
+    
 
 
 class RoleCRUD:
